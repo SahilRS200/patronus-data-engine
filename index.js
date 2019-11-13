@@ -1,9 +1,6 @@
 var express = require('express');
-// var https = require('https');
 var http = require('http');
-var axios = require('axios');
 var bodyParser = require('body-parser');
-var Websocket = require('ws');
 // var ssl = require('./security');
 app = express();
 var keymapper =  require('./data.json');
@@ -36,10 +33,6 @@ app.use(function (req, res, next) {
     app.route('/obd2')
         .get(function (req, res) {
             console.log(`broadcast at ${new Date()}`)
-          //  console.log(req.query);
-			const body = req.query;
-       //     const pingurl = "https://sahilsnest.in/vehicle/ping/echo"
-    //		axios.post(pingurl, body);
             const author = 'OBD'
             const msg = JSON.stringify(req.query);
             wsocketserver.broadCastMsg(msg,author)

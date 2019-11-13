@@ -27,40 +27,14 @@ exports.startWebSocketServer = function (server) {
     });
 
     wserver.on('connection', function (wsocket) {
-        //console.log(wsocket);
-        // wsocket.send('Hi there, I am a WebSocket server');
         if(typeof keepaliveInterval !== 'undefined') {
             startKeepAliveTimer();
         }
         broadCastMsg('we have a new member', 'OBDSERVER');
-       // LiveScore.sendLatest(wsocket);
-        // var iotctl;
-        // try {
-        //     iotctl = require('../controllers/iotcontroller');
-        // }
-        // catch (err) {
-        //     console.log(err);
-        // }
-       // LiveScore.startLiveScoreAPI();
         wsocket.on('message', function (msg) {
             try {
                 var payload = JSON.parse(msg);
                 console.log(payload.msg);
-                // if(payload.type==='IOT') {
-                //     console.log('intercepted iot');
-                   
-                //    iotctl.processPing(payload , wsocket);
-                // }
-                // else if (payload.type === 'BROADCAST') {
-                //     broadCastMsg(payload.msg, payload.author);
-                // }
-                // else {
-                //     try { require('./websocketaction').mapActionToMethod(payload, wsocket); }
-                //     catch (e) {
-                //         console.log(e);
-                //         wsocket.send(JSON.stringify({ err: "Incorrect action" }));
-                //     }
-                // }
             }
             catch (e) {
                 console.log(e);
