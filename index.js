@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 // var ssl = require('./security');
 app = express();
 var keymapper =  require('./data.json');
+var kafka = require('./kafka');
+const { setupKafka , postMessage } = kafka;
 // var appSecure = https.createServer(ssl.getSSLOptions());
 port = process.env.PORT || 80;
 // sslport = process.env.SSLPORT || 3443;
@@ -36,11 +38,18 @@ app.use(function (req, res, next) {
             const author = 'OBD'
             const msg = JSON.stringify(req.query);
             wsocketserver.broadCastMsg(msg,author)
+            //enqueue to kafka
+            postMessage(msg);
             res.status(200);
             res.send('OK!');
         });
 
-wsocketserver.startWebSocketServer(server);
+var kafka = require('./kafka');
+setupKafka()
+setTimeout(function(){
+    wsocketserver.startWebSocketServer(server);
+    console.log('end of startup')
+}, 5000)
 
 
 

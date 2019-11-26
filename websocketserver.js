@@ -27,9 +27,9 @@ exports.startWebSocketServer = function (server) {
     });
 
     wserver.on('connection', function (wsocket) {
-        if(typeof keepaliveInterval !== 'undefined') {
-            startKeepAliveTimer();
-        }
+        // if(typeof keepaliveInterval !== 'undefined') {
+        //     startKeepAliveTimer();
+        // }
         broadCastMsg('we have a new member', 'OBDSERVER');
         wsocket.on('message', function (msg) {
             try {
