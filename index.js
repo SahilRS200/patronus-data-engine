@@ -39,6 +39,16 @@ app.use(function (req, res, next) {
             res.status(200);
             res.send('OK!');
         });
+    app.route('/obd2sim')
+        .get(function (req, res) {
+            console.log(`simbroadcast at ${new Date()}`)
+            const author = 'OBD'
+            const msq = {sim: true, ...req.query}
+            const msg = JSON.stringify(msq);
+            wsocketserver.broadCastMsg(msg,author)
+            res.status(200);
+            res.send('OK!');
+        });
 
 wsocketserver.startWebSocketServer(server);
 
